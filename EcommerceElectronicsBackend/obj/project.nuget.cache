@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "55dd2pGIxMA=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\chinn\\Documents\\ecommerce-electronics\\EcommerceElectronicsBackend\\EcommerceElectronicsBackend.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\chinn\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.3\\microsoft.aspnetcore.openapi.9.0.3.nupkg.sha512",
+    "C:\\Users\\chinn\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
