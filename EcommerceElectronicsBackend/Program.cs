@@ -1,41 +1,67 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System.Text.Json.Serialization;
+using EcommerceElectronicsBackend.Data;
+
+using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore; // Added for EF Core
+// using YourNamespace; // Uncomment and replace with your actual namespace for ApplicationDbContext
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddControllers()
+.AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.WriteIndented = true;
+    });
+
+// Register the ApplicationDbContext with MySQL using Pomelo provider
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Ecommerce API",
+        Version = "v1",
+        Description = "API for managing ecommerce products",
+        Contact = new OpenApiContact
+        {
+            Name = "Support Team",
+            Email = "support@ecommerce.com",
+        }
+    });
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    
+      app.UseSwaggerUI(c =>
+  {
+      c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ecommerce API v1");
+      c.RoutePrefix = string.Empty;
+  });
+
 }
 
 app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
+app.UseRouting();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
