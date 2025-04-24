@@ -1,24 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { DataService } from './data.service';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
-  categories: any[] = [];
-
-  constructor(private dataService: DataService) {}
-
-  ngOnInit() {
-    this.dataService.getCategories().subscribe(
-      (data) => {
-        this.categories = data;
-      },
-      (error) => {
-        console.error('Error fetching categories:', error);
-      }
-    );
-  }
+export class AppComponent {
+  title = 'ecommerce-electronics-frontend';
 }
