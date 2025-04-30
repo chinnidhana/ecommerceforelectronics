@@ -7,15 +7,19 @@ namespace EcommerceElectronicsBackend.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
-        { 
+        {
         }
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+
 
             // Configure Categories entity to match your SQL table
             modelBuilder.Entity<Category>(entity =>
@@ -81,6 +85,20 @@ namespace EcommerceElectronicsBackend.Data
                     .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
+
+            modelBuilder.Entity<User>(e =>
+            {
+                e.ToTable("users");
+                e.HasKey(u => u.UserId);
+                e.Property(u => u.UserId)        .HasColumnName("user_id");
+                e.Property(u => u.Username)      .HasColumnName("username")     .HasMaxLength(50)  .IsRequired();
+                e.Property(u => u.Email)         .HasColumnName("email")        .HasMaxLength(100) .IsRequired();
+                e.Property(u => u.PasswordHash)  .HasColumnName("password_hash").HasMaxLength(255) .IsRequired();
+                e.Property(u => u.Role)          .HasColumnName("role")         .HasMaxLength(20)  .IsRequired();
+            });
+
+
+
         }
     }
 }

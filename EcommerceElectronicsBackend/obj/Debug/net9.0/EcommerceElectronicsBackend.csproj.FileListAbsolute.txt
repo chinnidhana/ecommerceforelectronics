@@ -142,3 +142,4 @@ C:\Users\chinn\Documents\ecommerce-electronics\EcommerceElectronicsBackend\obj\D
 C:\Users\chinn\Documents\ecommerce-electronics\EcommerceElectronicsBackend\obj\Debug\net9.0\EcommerceElectronicsBackend.genruntimeconfig.cache
 C:\Users\chinn\Documents\ecommerce-electronics\EcommerceElectronicsBackend\obj\Debug\net9.0\ref\EcommerceElectronicsBackend.dll
 C:\Users\chinn\Documents\ecommerce-electronics\EcommerceElectronicsBackend\obj\Debug\net9.0\EcommerceElectronicsBackend.sourcelink.json
+C:\Users\chinn\Documents\ecommerce-electronics\EcommerceElectronicsBackend\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
